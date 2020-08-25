@@ -15,8 +15,8 @@ resource "aws_security_group" "allow_curvytron" {
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 10071
+    to_port     = 10071
     protocol    = "tcp"
     security_groups = [ aws_security_group.allow_curvytron_lb.id ]
   }
@@ -71,7 +71,7 @@ resource "aws_ecs_service" "curvytron" {
   load_balancer {
     target_group_arn = aws_lb_target_group.curvytron.arn
     container_name   = "curvytron"
-    container_port   = 8080
+    container_port   = 10071
   }
 }
 
@@ -88,14 +88,14 @@ resource "aws_ecs_task_definition" "curvytron" {
     "image": "${aws_ecr_repository.curvytron.repository_url}",
     "name": "curvytron",
     "portMappings" : [{
-      "containerPort": 8080
+      "containerPort": 10071
     }]
   }
 ]
 DEFINITION
 }
 resource "aws_lb_target_group" "curvytron" {
-  port        = 8080
+  port        = 10071
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id

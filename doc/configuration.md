@@ -8,7 +8,7 @@ Details of `config.json`:
 
 ```json
 {
-    "port": 8080,
+    "port": 10071,
     "googleAnalyticsId": null,
     "inspector": {
         "enabled": false,

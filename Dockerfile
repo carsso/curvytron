@@ -5,6 +5,6 @@ COPY package.json config.json /curvytron/
 RUN npm install --production
 ADD bin /curvytron/bin/
 ADD web /curvytron/web/
-EXPOSE 8080
+EXPOSE 10071
 
 CMD node bin/curvytron.js

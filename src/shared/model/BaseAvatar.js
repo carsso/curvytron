@@ -449,11 +449,11 @@ BaseAvatar.prototype.updateAcceleration = function(amount){
     if(amount > 0){
         this.velocityCoefficient = 1.5;
     } else if( amount < 0 ){
-        this.velocityCoefficient = 0.65
+        this.velocityCoefficient = 0.65;
     } else {
         this.velocityCoefficient = 1.0;   
     }
 
     //this.accelerationTriggeredAt = Date.now();
     this.updateVelocities();
-}
+};

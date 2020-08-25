@@ -270,8 +270,8 @@ PlayerInput.prototype.setMove = function(move)
 
 PlayerInput.prototype.setAcceleration = function(acceleration){
     this.acceleration = acceleration;
-    this.emit('accelerate', {avatar: this.avatar, acceleration: acceleration})
-}
+    this.emit('accelerate', {avatar: this.avatar, acceleration: acceleration});
+};
 
 /**
  * Set width
