@@ -35,7 +35,7 @@ Game.prototype.stackMargin = 15;
  *
  * @type {String}
  */
-Game.prototype.backgroundColor = '#222222';
+Game.prototype.backgroundColor = '#00000000';
 
 /**
  * Load DOM
@@ -293,6 +293,12 @@ Game.prototype.drawArrow = function(avatar)
 Game.prototype.clearBackground = function()
 {
     this.background.color(this.backgroundColor);
+    var image = new Image();
+    image.src = "../../images/bg.gif";
+
+    image.onload = function() {
+        this.context.drawImage(background,0,0);   
+    }
 };
 
 /**
