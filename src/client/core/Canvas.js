@@ -11,13 +11,6 @@ function Canvas(width, height, element)
     this.context = this.element.getContext('2d');
     this.scale   = 1;
     
-    var image = new Image();
-    image.src = "../images/bg.gif";
-
-    image.onload = function() {
-        this.context.drawImage(background,0,0);   
-    }
-
     if (typeof(width) !== 'undefined' && width) {
         this.setWidth(width);
     }

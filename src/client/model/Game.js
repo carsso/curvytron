@@ -35,7 +35,7 @@ Game.prototype.stackMargin = 15;
  *
  * @type {String}
  */
-Game.prototype.backgroundColor = '#00000000';
+// Game.prototype.backgroundColor = '#22222'; deprecated by custom background
 
 /**
  * Load DOM
@@ -292,13 +292,7 @@ Game.prototype.drawArrow = function(avatar)
  */
 Game.prototype.clearBackground = function()
 {
-    this.background.color(this.backgroundColor);
-    var image = new Image();
-    image.src = "../../images/bg.gif";
-
-    image.onload = function() {
-        this.context.drawImage(background,0,0);   
-    }
+    this.background.context.clearRect(0, 0, this.background.element.width, this.background.element.height);
 };
 
 /**
