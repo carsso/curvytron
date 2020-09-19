@@ -56,6 +56,9 @@
     "md5": "^2.2.1"
   },
   "scripts": {
-    "install": "bower install"
+    "install": "bower install",
+    "build": "./node_modules/.bin/gulp",
+    "watch": "./node_modules/.bin/gulp watch",
+    "start": "node bin/curvytron.js"
   }
 }
