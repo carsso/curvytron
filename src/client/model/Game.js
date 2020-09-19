@@ -312,12 +312,14 @@ Game.prototype.onResize = function()
 {
     var w=window,d=document,e=d.documentElement,g=document.body,x=w.innerWidth||e.clientWidth||g.clientWidth,y=w.innerHeight||e.clientHeight||g.clientHeight;
 
-    var width = Math.min(x - this.gameInfos.clientWidth - 8, y - 8),
+    var horizontalBorderWidth = 8; // sum of both sides 
+    var verticalBorderHeight = 0; // sum of both sides 
+    var width = Math.min(x - this.gameInfos.clientWidth - horizontalBorderWidth, y - verticalBorderHeight),
         scale = width / this.size,
         avatar;
 
-    this.render.style.width  = (width + 8) + 'px';
-    this.render.style.height = (width + 8) + 'px';
+    this.render.style.width  = (width + horizontalBorderWidth) + 'px';
+    this.render.style.height = (width + verticalBorderHeight) + 'px';
     this.canvas.setDimension(width, width, scale);
     this.effect.setDimension(width, width, scale);
     this.background.setDimension(width, width, scale, true);
