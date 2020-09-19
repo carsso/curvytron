@@ -313,7 +313,7 @@ Game.prototype.onResize = function()
     var w=window,d=document,e=d.documentElement,g=document.body,x=w.innerWidth||e.clientWidth||g.clientWidth,y=w.innerHeight||e.clientHeight||g.clientHeight;
 
     var horizontalBorderWidth = 8; // sum of both sides 
-    var verticalBorderHeight = 0; // sum of both sides 
+    var verticalBorderHeight = 8; // sum of both sides 
     var width = Math.min(x - this.gameInfos.clientWidth - horizontalBorderWidth, y - verticalBorderHeight),
         scale = width / this.size,
         avatar;

@@ -6,7 +6,8 @@
     left: 0;
     height: 100%;
     width: 100%;
-    background: #000;
+    background-size: 50px;
+    background-image: url('../images/bg_pattern.gif');
 
     aside, #col-right {
         position: fixed;
@@ -434,17 +435,9 @@
         .game-render {
             display: block;
             position: relative;
+            border: 4px solid lighten($header-background-from, 10%);
             margin: auto;
-            border-left: 4px solid;
-            border-right: 4px solid;
-
-            border-image: linear-gradient(
-                to bottom, 
-                $header-background-to, 
-                $header-background-from
-            ) 1 100%;
                         
-
             &.borderless {
                 border-style: dashed;
             }
