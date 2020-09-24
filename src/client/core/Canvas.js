@@ -286,6 +286,23 @@ Canvas.prototype.drawCircle = function(x, y, radius, color)
 };
 
 /**
+ * Outline circle
+ *
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} radius
+ * @param {String} color
+ */
+Canvas.prototype.outlineCircle = function(x, y, radius, lineWidth, color)
+{
+    this.context.beginPath();
+    this.context.arc(x, y, radius, 0, this.twoPi, false);
+    this.context.strokeStyle = color;
+    this.context.lineWidth = lineWidth;
+    this.context.stroke();
+};
+
+/**
  * Draw line
  *
  * @param {Array} points

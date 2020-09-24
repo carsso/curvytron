@@ -39,14 +39,14 @@ Avatar.prototype.constructor = Avatar;
  *
  * @type {Number}
  */
-Avatar.prototype.arrowWidth = 3;
+Avatar.prototype.arrowWidth = 8;
 
 /**
  * Arrow canvas size
  *
  * @type {Number}
  */
-Avatar.prototype.arrowSize = 200;
+Avatar.prototype.arrowSize = 800;
 
 /**
  * Update
@@ -206,6 +206,7 @@ Avatar.prototype.destroy = function()
 Avatar.prototype.clear = function()
 {
     BaseAvatar.prototype.clear.call(this);
+    this.ping = null;
     this.updateWidth();
     this.drawHead();
 };

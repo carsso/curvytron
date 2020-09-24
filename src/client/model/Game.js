@@ -195,6 +195,10 @@ Game.prototype.draw = function(step)
             this.drawBonusStack(avatar);
 
             if (!this.frame && avatar.local) {
+                if(!avatar.ping)
+                {
+                    avatar.ping = new PingPlayer(avatar, this.effect);
+                }
                 this.drawArrow(avatar);
             }
         }
