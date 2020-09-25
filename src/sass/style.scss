@@ -35,3 +35,8 @@
 @import "pages/chat";
 
 @import "helpers/responsive";
+
+.no-admin .admin-disable
+{
+    display: none !important;
+}
