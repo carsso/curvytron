@@ -23,7 +23,7 @@
         background: $aside-background;
         color: #EEE;
         font-weight: 300;
-        left: 0;
+        right: 0;
         border-right: $aside-border-size solid lighten($aside-background, 8%);
 
         header {
@@ -37,7 +37,7 @@
             width: $aside-width;
             font-size: 34px;
             top: 0;
-            left: 0;
+            right: 0;
             z-index: 100;
             text-align: left;
             border: 0;
@@ -66,18 +66,18 @@
             width: 50px;
 
             &.sound {
-                left: $aside-width - $aside-border-size - 50px;
+                right: $aside-border-size + 0px;
                 top: $game-header-height + 80px;
             }
 
             &.radio-sound {
-                left: $aside-width - $aside-border-size - 100px;
+                right: $aside-border-size + 50px;
                 top: $game-header-height + 80px;
             }
 
             &::after {
                 top: 40px;
-                left: 7px;
+                right: 7px;
             }
         }
 
@@ -90,7 +90,7 @@
             color: $aside-background;
             position: fixed;
             overflow: hidden;
-            left: 0;
+            right: 0;
             top: $game-header-height;
             width: $aside-width - $aside-border-size;
             height: 80px;
@@ -123,7 +123,7 @@
             height: 80px;
             line-height: 80px;
             position: fixed;
-            left: 0;
+            right: 0;
             top: $game-header-height + 80px;
             width: $aside-width - $aside-border-size - 80px;
             background: $aside-background;
@@ -139,7 +139,7 @@
             overflow: auto;
             top: $game-header-height + 160px;
             bottom: 298px;
-            left: 0;
+            right: 0;
             width: $aside-width;
 
             &::-webkit-scrollbar {
@@ -283,7 +283,7 @@
         footer {
             display: block !important;
             position: fixed;
-            left: 0;
+            right: 0;
             bottom: 245px;
             width: $aside-width - $aside-border-size;
             min-width: $aside-width - $aside-border-size;
@@ -312,8 +312,8 @@
 
     #col-right {
         bottom: 0;
-        right: 0;
-        left: $aside-width;
+        right: $aside-width;
+        left: 0;
         text-align: center;
 
         .tie-break {
@@ -574,7 +574,7 @@
     .chat-wrapper {
         position: fixed;
         bottom: 0;
-        left: 0;
+        right: 0;
         width: $aside-width;
         height: 245px;
         background: lighten($aside-background, 5);
