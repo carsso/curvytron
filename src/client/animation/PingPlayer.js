@@ -76,7 +76,7 @@ PingPlayer.prototype.clear = function ()
     if (this.cleared) { return; }
 
     
-    this.effect.clearZone(this.avatar.startX - this.radius, this.avatar.startY - this.radius, this.radius * 2.1, this.radius * 2.1);
+    this.effect.clearZone(this.avatar.startX - this.radius, this.avatar.startY - this.radius, this.radius * 2.4, this.radius * 2.4);
 
     this.cleared = true;
 };
