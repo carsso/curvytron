@@ -27,6 +27,10 @@ function Avatar(player)
     // Ludecat changes
     this.timeAlive = 0;
     this.colorFilter = '';
+    this.defaultSaturation = 20;
+    this.saturation = this.defaultSaturation;
+    this.defaultBrightness = 50;
+    this.brightness = this.defaultBrightness;
 
     if (this.local) {
         this.input = new PlayerInput(this, player.getBinding());
@@ -65,11 +69,13 @@ Avatar.prototype.update = function(step)
     }
 
     this.timeAlive += step;
-    console.log(this.timeAlive);
-    if(this.timeAlive < 5000 && !this.local)
+    if(this.timeAlive < 10000 && !this.local)
     {
+        this.saturation += step / 150;
+        this.brightness += step / 230;
         // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter
-        this.colorFilter = ''.concat('saturate(', 20, '%)').concat(' ', 'brightness(', 50, '%)');
+        this.colorFilter = ''.concat('saturate(', Math.floor(this.saturation), '%)')
+            .concat(' ', 'brightness(', Math.floor(this.brightness), '%)');
     }
     else
     {
@@ -223,6 +229,9 @@ Avatar.prototype.clear = function()
 {
     BaseAvatar.prototype.clear.call(this);
     this.ping = null;
+    this.timeAlive = 0;
+    this.saturation = this.defaultSaturation;
+    this.brightness = this.defaultBrightness;
     this.updateWidth();
     this.drawHead();
 };
