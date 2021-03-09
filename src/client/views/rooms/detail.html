@@ -3,6 +3,7 @@
         <h2 class="header">
             {{ ::room.name }}
             <i class="icon-params" ng-click="toggleParameters()" ng-class="{'active': displayParameters}"></i>
+            <i class="icon-plus invite-button" ng-click="copyUrl()" ng-class="{'active': displayParameters}"><span ng-if="urlCopied">url copied</span> </i>
         </h2>
 
         <div id="room-parameters" ng-controller="RoomConfigController" ng-if="displayParameters">

@@ -26,6 +26,20 @@
                 @include opacity(50);
             }
         }
+
+        .invite-button {
+            font-size: 30px;
+            cursor: pointer;
+            @include transition(opacity 0.15s linear);
+
+            &:hover, &.active {
+                @include opacity(50);
+            }
+
+            span {
+                font-size: 12px;
+            }
+        }
     }
 
     .room-details {

@@ -58,6 +58,9 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.launch           = this.launch.bind(this);
     this.start            = this.start.bind(this);
 
+    // Ludecat
+    this.copyUrl                  = this.copyUrl.bind(this);
+
     this.$scope.$on('$destroy', this.leaveRoom);
 
     // Hydrating scope:
@@ -79,6 +82,11 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.$scope.displayParameters = false;
     this.$scope.$parent.profile   = true;
     this.$scope.launching         = false;
+
+    // Ludecat
+    this.$scope.url               = this.$location.$$absUrl.split('?')[0];
+    this.$scope.copyUrl           = this.copyUrl;
+    this.$scope.urlCopied         = false;
 
     this.repository.start();
     gamepadListener.start();
@@ -607,4 +615,10 @@ RoomController.prototype.clearLaunchInterval = function()
 RoomController.prototype.toggleParameters = function()
 {
     this.$scope.displayParameters = !this.$scope.displayParameters;
+};
+
+RoomController.prototype.copyUrl = function ()
+{
+    this.$scope.urlCopied = true;
+    navigator.clipboard.writeText(this.$scope.url);
 };
