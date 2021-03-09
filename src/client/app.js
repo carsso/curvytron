@@ -19,7 +19,7 @@ curvytronApp.controller(
 
 curvytronApp.controller(
     'RoomsController',
-    ['$scope', '$location', 'SocketClient', RoomsController]
+    ['$scope', '$routeParams', '$location', 'SocketClient', RoomsController]
 );
 curvytronApp.controller(
     'RoomController',

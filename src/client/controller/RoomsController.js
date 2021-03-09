@@ -2,10 +2,11 @@
  * Rooms Controller
  *
  * @param {Object} $scope
+ * @param $routeParams
  * @param {Object} $location
  * @param {SocketClient} client
  */
-function RoomsController($scope, $location, client)
+function RoomsController($scope,$routeParams, $location, client)
 {
     AbstractController.call(this, $scope);
 
@@ -33,6 +34,9 @@ function RoomsController($scope, $location, client)
     this.$scope.roomMaxLength   = Room.prototype.maxLength;
     this.$scope.roomName        = '';
     this.$scope.$parent.profile = true;
+
+    // Ludecat implementation
+    this.$scope.isAdmin         = $routeParams && $routeParams.admin;
 
     this.attachEvents();
 }
