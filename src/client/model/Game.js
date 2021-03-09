@@ -217,7 +217,7 @@ Game.prototype.drawTail = function(avatar)
     var points = avatar.trail.getLastSegment();
 
     if (points) {
-        this.background.drawLineScaled(points, avatar.width, avatar.color, 'round');
+        this.background.drawLineScaled(points, avatar.width, avatar.color, avatar.colorFilter, 'round');
     }
 };
 
@@ -228,7 +228,7 @@ Game.prototype.drawTail = function(avatar)
  */
 Game.prototype.drawAvatar = function(avatar)
 {
-    this.canvas.drawImageTo(avatar.canvas.element, avatar.startX, avatar.startY);
+    this.canvas.drawImageTo(avatar.canvas.element, avatar.startX, avatar.startY, avatar.colorFilter);
     avatar.clearX     = avatar.startX;
     avatar.clearY     = avatar.startY;
     avatar.clearWidth = avatar.canvas.element.width;

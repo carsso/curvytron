@@ -254,8 +254,9 @@ Canvas.prototype.drawImage = function(image, x, y, width, height)
  * @param {Number} width
  * @param {Number} height
  */
-Canvas.prototype.drawImageTo = function(image, x, y)
+Canvas.prototype.drawImageTo = function(image, x, y, filter)
 {
+    this.context.filter = filter;
     this.context.drawImage(image, x, y);
 };
 
@@ -337,7 +338,7 @@ Canvas.prototype.drawLine = function(points, width, color, style)
  * @param {String} color
  * @param {String} style
  */
-Canvas.prototype.drawLineScaled = function(points, width, color, style)
+Canvas.prototype.drawLineScaled = function(points, width, color, colorFilter, style)
 {
     var length = points.length;
 
@@ -345,6 +346,7 @@ Canvas.prototype.drawLineScaled = function(points, width, color, style)
         this.context.lineCap     = style;
         this.context.strokeStyle = color;
         this.context.lineWidth   = width * this.scale;
+        this.context.filter = colorFilter;
         this.context.beginPath();
         this.context.moveTo(points[0][0] * this.scale, points[0][1] * this.scale);
 

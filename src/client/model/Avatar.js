@@ -24,6 +24,10 @@ function Avatar(player)
         score: null
     };
 
+    // Ludecat changes
+    this.timeAlive = 0;
+    this.colorFilter = '';
+
     if (this.local) {
         this.input = new PlayerInput(this, player.getBinding());
     }
@@ -58,6 +62,18 @@ Avatar.prototype.update = function(step)
     if (!this.changed && this.alive) {
         this.updateAngle(step);
         this.updatePosition(step);
+    }
+
+    this.timeAlive += step;
+    console.log(this.timeAlive);
+    if(this.timeAlive < 5000 && !this.local)
+    {
+        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter
+        this.colorFilter = ''.concat('saturate(', 20, '%)').concat(' ', 'brightness(', 50, '%)');
+    }
+    else
+    {
+        this.colorFilter = 'none';
     }
 
     this.startX  = this.canvas.round(this.x * this.canvas.scale - this.canvasRadius);
