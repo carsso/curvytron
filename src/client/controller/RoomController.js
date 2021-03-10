@@ -620,6 +620,32 @@ RoomController.prototype.toggleParameters = function()
 RoomController.prototype.copyUrl = function ()
 {
     this.$scope.urlCopied = true;
-    navigator.clipboard.writeText(this.$scope.url);
+
+    if (typeof(navigator.clipboard)==='undefined') {
+        console.log('navigator.clipboard');
+        var textArea = document.createElement('textarea');
+        textArea.value = this.$scope.url;
+        textArea.style.position='fixed';  //avoid scrolling to bottom
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log(msg);
+        } catch (err) {
+            console.log('Was not possible to copy te text: \n' + err);
+        }
+
+        document.body.removeChild(textArea);
+        return;
+    }
+    navigator.clipboard.writeText(this.$scope.url).then(function() {
+        console.log('successful!');
+    }, function(err) {
+        console.log(err);
+    });
+
     console.log(this.$scope.url);
 };
