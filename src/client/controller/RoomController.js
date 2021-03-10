@@ -621,4 +621,5 @@ RoomController.prototype.copyUrl = function ()
 {
     this.$scope.urlCopied = true;
     navigator.clipboard.writeText(this.$scope.url);
+    console.log(this.$scope.url);
 };
