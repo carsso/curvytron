@@ -23,6 +23,7 @@ function RoomRepository(client)
     this.onPlayerReady    = this.onPlayerReady.bind(this);
     this.onPlayerColor    = this.onPlayerColor.bind(this);
     this.onPlayerName     = this.onPlayerName.bind(this);
+    this.onPlayerTeamTag  = this.onPlayerTeamTag.bind(this);
     this.onPlayerTeam     = this.onPlayerTeam.bind(this);
     this.onConfigOpen     = this.onConfigOpen.bind(this);
     this.onConfigTeam     = this.onConfigTeam.bind(this);
@@ -52,6 +53,7 @@ RoomRepository.prototype.attachEvents = function()
     this.client.on('player:ready', this.onPlayerReady);
     this.client.on('player:color', this.onPlayerColor);
     this.client.on('player:name', this.onPlayerName);
+    this.client.on('player:teamTag', this.onPlayerTeamTag);
     this.client.on('player:team', this.onPlayerTeam);
     this.client.on('room:config:open', this.onConfigOpen);
     this.client.on('room:config:team', this.onConfigTeam);
@@ -81,6 +83,7 @@ RoomRepository.prototype.detachEvents = function()
     this.client.off('player:color', this.onPlayerColor);
     this.client.off('player:team', this.onPlayerTeam);
     this.client.off('player:name', this.onPlayerName);
+    this.client.off('player:teamTag', this.onPlayerTeamTag);
     this.client.off('room:config:open', this.onConfigOpen);
     this.client.off('room:config:team', this.onConfigTeam);
     this.client.off('room:config:max-score', this.onConfigMaxScore);
@@ -175,6 +178,7 @@ RoomRepository.prototype.createRoom = function(data, clients)
                 data.players[i].id,
                 client,
                 data.players[i].name,
+                data.players[i].teamTag,
                 data.players[i].color,
                 data.players[i].ready,
                 data.players[i].team
@@ -259,10 +263,11 @@ RoomRepository.prototype.amIMaster = function()
  * @param {String} name
  * @param {Function} callback
  */
-RoomRepository.prototype.addPlayer = function(name, color, team, callback)
+RoomRepository.prototype.addPlayer = function(name, teamTag, color, team, callback)
 {
     this.client.addEvent('player:add', {
         name: name.substr(0, Player.prototype.maxLength),
+        teamTag: teamTag ? teamTag : null,
         color: color ? color.substr(0, Player.prototype.colorMaxLength) : null,
         team: team ? team : null
     }, callback);
@@ -356,6 +361,22 @@ RoomRepository.prototype.setName = function(player, name, callback)
 
     if (name !== player.name) {
         this.client.addEvent('room:name', {player: player, name: name}, callback);
+    }
+};
+/**
+ * Set teamTag
+ *
+ * @param {Room} room
+ * @param {Number} player
+ * @param {String} teamTag
+ * @param {Function} callback
+ */
+RoomRepository.prototype.setTeamTag = function(player, teamTag, callback)
+{
+    teamTag = teamTag && teamTag.trim();
+
+    if (teamTag !== player.teamTag) {
+        this.client.addEvent('room:teamTag', {player: player, teamTag: teamTag}, callback);
     }
 };
 
@@ -464,6 +485,7 @@ RoomRepository.prototype.onJoinRoom = function(e)
             data.player.id,
             this.clients.getById(data.player.client),
             data.player.name,
+            data.player.teamTag,
             data.player.color,
             data.player.ready,
             data.player.team
@@ -542,6 +564,8 @@ RoomRepository.prototype.onPlayerTeam = function(e)
  */
 RoomRepository.prototype.onPlayerName = function(e)
 {
+    console.log("In onPlayerName");
+    console.log(this);
     var data = e.detail,
         player = this.room.players.getById(data.player);
 
@@ -550,6 +574,28 @@ RoomRepository.prototype.onPlayerName = function(e)
         this.emit('player:name', {player: player});
     }
 };
+
+
+/**
+ * On player change teamTag
+ *
+ * @param {Event} e
+ */
+RoomRepository.prototype.onPlayerTeamTag = function(e)
+{
+    console.log("In onPlayerTeamTag");
+    console.log(this);
+    var data = e.detail,
+        player = this.room.players.getById(data.player);
+
+    console.info("Setting teamTag of player to " + data.teamTag);
+
+    if (player) {
+        player.setTeamTag(data.teamTag);
+        this.emit('player:teamTag', {player: player});
+    }
+};
+
 
 /**
  * On player toggle ready

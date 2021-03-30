@@ -37,6 +37,8 @@ function RoomController(room)
         onReady: function (data) { controller.onReady(this, data[0], data[1]); },
         onKickVote: function (data) { controller.onKickVote(this, data[0], data[1]); },
         onName: function (data) { controller.onName(this, data[0], data[1]); },
+        onTeamTag: function (data) { controller.onTeamTag(this, data[0], data[1]); },
+        onTeamTag: function (data) { controller.onTeamTag(this, data[0], data[1]); },
         onTeam: function (data) { controller.onTeam(this, data[0], data[1]);},
         onColor: function (data) { controller.onColor(this, data[0], data[1]); },
         onLeave: function () { controller.onLeave(this); },
@@ -158,6 +160,7 @@ RoomController.prototype.attachEvents = function(client)
     client.on('room:color', this.callbacks.onColor);
     client.on('room:team', this.callbacks.onTeam);
     client.on('room:name', this.callbacks.onName);
+    client.on('room:teamTag', this.callbacks.onTeamTag);
     client.on('players:clear', this.onPlayersClear);
 };
 
@@ -179,6 +182,7 @@ RoomController.prototype.detachEvents = function(client)
     client.removeListener('room:color', this.callbacks.onColor);
     client.removeListener('room:team', this.callbacks.onTeam);
     client.removeListener('room:name', this.callbacks.onName);
+    client.removeListener('room:teamTag', this.callbacks.onTeamTag);
     client.removeListener('players:clear', this.onPlayersClear);
 };
 
@@ -400,11 +404,19 @@ RoomController.prototype.onActivity = function(client)
 RoomController.prototype.onPlayerAdd = function(client, data, callback)
 {
     var name = data.name.substr(0, Player.prototype.maxLength).trim(),
+        teamTag = data.teamTag && data.teamTag.trim(),
         color = typeof(data.color) !== 'undefined' ? data.color : null,
         team = typeof(data.team) !== 'undefined' ? data.team : null;
 
+
+    console.info("Added player [" + teamTag + "] " + name);
+
     if (!name.length) {
         return callback({success: false, error: 'Invalid name.'});
+    }
+
+    if (!teamTag || !teamTag.length) {
+        return callback({success: false, error: 'Invalid teamTag.'});
     }
 
     if (this.room.game) {
@@ -420,7 +432,7 @@ RoomController.prototype.onPlayerAdd = function(client, data, callback)
         return callback({success: false, error: 'Unknown client'});
     }
 
-    var player = new Player(client, name, color, false, team);
+    var player = new Player(client, name, teamTag, color, false, team);
 
     if (this.room.addPlayer(player)) {
         client.players.add(player);
@@ -536,7 +548,32 @@ RoomController.prototype.onName = function(client, data, callback)
 
     player.setName(name);
     callback({success: true, name: player.name});
-    this.socketGroup.addEvent('player:name', { player: player.id, name: player.name });
+    this.socketGroup.addEvent('player:name', { player: player.id, name: player.name, teamTag: player.teamTag });
+};
+
+/**
+ * On player change team
+ *
+ * @param {SocketClient} client
+ * @param {Object} data
+ * @param {Function} callback
+ */
+RoomController.prototype.onTeamTag = function(client, data, callback)
+{
+    var player = client.players.getById(data.player),
+        teamTag = data.teamTag && data.teamTag.trim();
+
+    if (!player) {
+        return callback({success: false, error: 'Unknown player: "' + data.player + '"'});
+    }
+
+    if (!teamTag || !teamTag.length) {
+        return callback({success: false, error: 'Invalid teamTag.', teamTag: player.teamTag});
+    }
+
+    player.setTeamTag(teamTag);
+    callback({success: true, teamTag: player.teamTag});
+    this.socketGroup.addEvent('player:teamTag', { player: player.id, name: player.name, teamTag: player.teamTag });
 };
 
 /**

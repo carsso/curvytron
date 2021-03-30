@@ -6,6 +6,7 @@ function Profile()
     EventEmitter.call(this);
 
     this.name     = null;
+    this.teamTag  = null;
     this.color    = null;
     this.sound    = true;
     this.radio    = false;
@@ -50,6 +51,7 @@ Profile.prototype.serialize = function()
 {
     return {
         name: this.name,
+        teamTag: this.teamTag,
         color: this.color,
         sound: this.sound,
         radio: this.radio,
@@ -66,6 +68,10 @@ Profile.prototype.unserialize = function(data)
 {
     if (typeof(data.name) !== 'undefined') {
         this.setName(data.name);
+    }
+
+    if (typeof(data.teamTag) !== 'undefined') {
+        this.setTeamTag(data.teamTag);
     }
 
     if (typeof(data.color) !== 'undefined') {
@@ -153,6 +159,21 @@ Profile.prototype.setName = function(name)
 };
 
 /**
+ * Set team
+ *
+ * @param {TeamTag} teamTag
+ */
+Profile.prototype.setTeamTag = function(teamTag)
+{
+    teamTag = teamTag && teamTag.trim();
+
+    if (teamTag && teamTag.length && this.teamTag !== teamTag) {
+        this.teamTag = teamTag;
+        this.persist();
+    }
+};
+
+/**
  * Set color
  *
  * @param {String} color
@@ -222,7 +243,7 @@ Profile.prototype.onControlChange = function(e)
  */
 Profile.prototype.isComplete = function()
 {
-    return this.name && this.color;
+    return this.name && this.teamTag && this.color;
 };
 
 /**
@@ -233,6 +254,7 @@ Profile.prototype.isComplete = function()
 Profile.prototype.isValid = function()
 {
     if (!this.name || !this.name.trim().length) { return false; }
+    if (!this.teamTag || !this.teamTag.trim().length) { return false; }
     if (!this.color || !BasePlayer.prototype.validateColor(this.color)) { return false; }
 
     return true;

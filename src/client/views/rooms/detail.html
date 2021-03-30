@@ -39,6 +39,7 @@
                     <tr>
                         <th class="col-remove"></th>
                         <th class="col-icon"></th>
+                        <th class="col-teamTag">Team Tag</th>
                         <th class="col-player">Name</th>
                         <th class="col-team" ng-if="room.config.team">Team</th>
                         <th class="col-color">Color</th>
@@ -60,6 +61,22 @@
                         </td>
                         <td class="col-icon">
                             <span ng-if="player.isMaster()" class="icon icon-crown pull-left"></span>
+                        </td>
+                        <td class="col-teamTag">
+                            <select
+                                type="text"
+                                ng-blur="setTeamTag(player)"
+                                ng-model="player.teamTag"
+                                class="form-control player-team-tag"
+                                name="teamTag"
+                                placeholder="TEAM"
+                            >
+                                <option>BM</option>
+                                <option>SHITS</option>
+                                <option>GONE</option>
+                                <option>RIP</option>
+                                <option>F</option>
+                            </select>
                         </td>
                         <td class="col-player">
                             <input type="text" ng-model="player.name" ng-blur="setName(player)" class="form-control player-name" name="name" maxlength="{{ ::nameMaxLength }}" />
@@ -97,6 +114,9 @@
                         <td class="col-icon">
                             <span ng-if="!player.client.active" class="icon inactive icon-clock pull-left"></span>
                             <span ng-if="player.isMaster()" class="icon icon-crown pull-left"></span>
+                        </td>
+                        <td class="col-teamTag">
+                            <p class="player-team-tag">{{ player.teamTag }}</p>
                         </td>
                         <td class="col-player">
                             <p class="player-name">{{ player.name }}</p>

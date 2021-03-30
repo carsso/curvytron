@@ -11,7 +11,25 @@
 
             <div class="form-row">
                 <div class="col">
-                    <label for="profile-name">My name:</label>
+                    <label for="profile-team-tag">Team:</label>
+                    <select
+                        id="profile-team-tag"
+                        type="text"
+                        ng-blur="profile.persist()"
+                        ng-model="profile.teamTag"
+                        class="form-control"
+                        name="team"
+                        placeholder="Select your team"
+                    >
+                        <option>BM</option>
+                        <option>SHITS</option>
+                        <option>GONE</option>
+                        <option>RIP</option>
+                        <option>F</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="profile-name">Name:</label>
                     <input
                         id="profile-name"
                         type="text"
@@ -21,23 +39,6 @@
                         name="name"
                         placeholder="Choose a name"
                         maxlength="{{ ::nameMaxLength }}"
-                    />
-                </div>
-
-                <div class="col">
-                    <label for="profile-color">My color:</label>
-                    <input
-                        id="profile-color"
-                        type="text"
-                        ng-blur="profile.persist()"
-                        colorpicker="hex"
-                        colorpicker-position="bottom"
-                        ng-model="profile.color"
-                        class="form-control player-color"
-                        name="color"
-                        placeholder="#CCCCCC"
-                        style="border-color: {{ profile.color }};"
-                        maxlength="{{ ::colorMaxLength }}"
                     />
                 </div>
                 <div class="clearfix"></div>

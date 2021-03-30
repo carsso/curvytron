@@ -47,6 +47,7 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.setName          = this.setName.bind(this);
     this.setTouch         = this.setTouch.bind(this);
     this.setTeam          = this.setTeam.bind(this);
+    this.setTeamTag       = this.setTeamTag.bind(this);
     this.updateProfile    = this.updateProfile.bind(this);
     this.toggleParameters = this.toggleParameters.bind(this);
     this.onRoomMaster     = this.onRoomMaster.bind(this);
@@ -70,6 +71,7 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.$scope.kickPlayer        = this.kickPlayer;
     this.$scope.setColor          = this.setColor;
     this.$scope.setTeam           = this.setTeam;
+    this.$scope.setTeamTag        = this.setTeamTag;
     this.$scope.setReady          = this.setReady;
     this.$scope.setName           = this.setName;
     this.$scope.setTouch          = this.setTouch;
@@ -167,6 +169,7 @@ RoomController.prototype.attachEvents = function()
     this.repository.on('player:ready', this.requestDigestScope);
     this.repository.on('player:color', this.requestDigestScope);
     this.repository.on('player:name', this.requestDigestScope);
+    this.repository.on('player:teamTag', this.requestDigestScope);
     this.repository.on('player:team', this.requestDigestScope);
     this.repository.on('client:activity', this.requestDigestScope);
     this.repository.on('room:master', this.onRoomMaster);
@@ -192,6 +195,7 @@ RoomController.prototype.detachEvents = function()
     this.repository.off('player:ready', this.requestDigestScope);
     this.repository.off('player:color', this.requestDigestScope);
     this.repository.off('player:name', this.requestDigestScope);
+    this.repository.off('player:teamTag', this.requestDigestScope);
     this.repository.off('player:team', this.requestDigestScope);
     this.repository.off('client:activity', this.requestDigestScope);
     this.repository.off('room:master', this.onRoomMaster);
@@ -229,16 +233,18 @@ RoomController.prototype.launch = function()
 /**
  * Add player
  */
-RoomController.prototype.addPlayer = function(name, color, team)
+RoomController.prototype.addPlayer = function(name, teamTag, color, team)
 {
     var $scope = this.$scope;
 
     name  = typeof(name) !== 'undefined' ? name : $scope.username;
+    teamTag = typeof(teamTag) !== 'undefined' ? teamTag : $scope.teamTag;
     color = typeof(color) !== 'undefined' ? color : null;
     team = typeof(team) !== 'undefined' ? team : null;
     if (name) {
         this.repository.addPlayer(
             name,
+            teamTag,
             color,
             team,
             function (result) {
@@ -402,6 +408,43 @@ RoomController.prototype.setName = function(player)
 };
 
 /**
+ * Set player team tag
+ *
+ * @return {Array}
+ */
+RoomController.prototype.setTeamTag = function(player)
+{
+    if (!player.local) { return; }
+
+    var controller = this;
+
+    console.log(player.teamTag);
+
+    this.repository.setTeamTag(
+        player.id,
+        player.teamTag,
+        function (result) {
+            if (!result.success) {
+                var error = typeof(result.error) !== 'undefined' ? result.error : 'Unknown error',
+                    teamTag = typeof(result.teamtag) !== 'undefined' ? result.teamTag : null;
+
+                console.error('Could not change team for player: %s', error);
+
+                if (teamTag) {
+                    player.teamTag = teamTag;
+                }
+            }
+
+            if (player.profile) {
+                controller.profile.setTeamTag(player.teamTag);
+            }
+
+            controller.digestScope();
+        }
+    );
+};
+
+/**
  * Set player ready
  *
  * @return {Array}
@@ -459,7 +502,7 @@ RoomController.prototype.addProfileUser = function()
 {
     if (this.room.isNameAvailable(this.profile.name)) {
         this.profile.on('change', this.updateProfile);
-        this.addPlayer(this.profile.name, this.profile.color);
+        this.addPlayer(this.profile.name, this.profile.teamTag, this.profile.color);
     }
 };
 
@@ -472,6 +515,7 @@ RoomController.prototype.updateProfile = function()
 
     if (player) {
         this.setProfileName(player);
+        this.setProfileTeamTag(player);
         this.setProfileColor(player);
         this.setProfileControls(player);
     }
@@ -538,6 +582,17 @@ RoomController.prototype.setProfileName = function(player)
     if (this.profile.name !== player.name) {
         player.setName(this.profile.name);
         this.setName(player);
+    }
+};
+
+/**
+ * Set profile name
+ */
+RoomController.prototype.setProfileTeamTag = function(player)
+{
+    if (this.profile.teamTag !== player.teamTag) {
+        player.setTeamTag(this.profile.teamTag);
+        this.setTeamTag(player);
     }
 };
 

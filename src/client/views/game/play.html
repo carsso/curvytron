@@ -48,6 +48,7 @@
                                 <tbody>
                                     <tr ng-repeat="avatar in ::avatars track by avatar.id">
                                         <td class="rank">{{ ::($index+1) }}</td>
+                                        <td class="teamTag"><span style="color: {{ ::avatar.player.color }}">[{{ ::avatar.player.teamTag }}]</span></td>
                                         <td class="name"><span style="color: {{ ::avatar.player.color }}">{{ ::avatar.name }}</span></td>
                                         <td class="points"><strong>{{ ::avatar.score }}</strong> points</td>
                                     </tr>
@@ -89,6 +90,7 @@
                     <span class="line-color-preview" style="background-color: {{ ::avatar.player.color }};"></span>
                     <span class="arrow" style="border-left-color: {{ ::avatar.player.color }};" ng-if="avatar.local"></span>
                     <span class="round-points" id="avatar-round-score-{{ ::avatar.id }}"></span>
+                    <span class="player-teamTag" title="{{ ::avatar.player.teamTag }}">[{{ ::avatar.player.teamTag }}] </span>
                     <span class="player-name" title="{{ ::avatar.name }}">{{ ::avatar.name }}</span>
                     <span class="score" id="avatar-score-{{ ::avatar.id }}">0</span>
                 </div>
