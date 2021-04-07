@@ -464,5 +464,5 @@ BaseAvatar.prototype.updateLerpVelocity = function(age)
 {
     var vel = (age / 20000) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
     vel = Math.max(vel,this.maxVelocity);
-    return vel;
+    this.velocity = vel;
 };
