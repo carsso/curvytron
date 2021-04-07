@@ -466,12 +466,13 @@ BaseAvatar.prototype.updateLerpVelocity = function(age)
 {
     if(age > this.maxVelocityAfterMiliseconds)
     {
+        console.log(age, '>',this.maxVelocityAfterMiliseconds);
         this.desiredVelocity = this.maxVelocity;
         return;
     }
 
     var vel = (age / this.maxVelocityAfterMiliseconds) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
-    vel = Math.max(vel,this.maxVelocity);
+    vel = Math.min(vel,this.maxVelocity);
     this.desiredVelocity = vel;
     console.log(this.desiredVelocity);
 };
