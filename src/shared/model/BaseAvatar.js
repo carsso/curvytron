@@ -41,7 +41,7 @@ BaseAvatar.prototype.constructor = BaseAvatar;
  *
  * @type {Number}
  */
-BaseAvatar.prototype.velocity = 16.0;
+BaseAvatar.prototype.velocity = 12.0;
 BaseAvatar.prototype.minVelocity = 4.0;
 BaseAvatar.prototype.maxVelocity = 16.0;
 BaseAvatar.prototype.maxVelocityAfterMiliseconds = 20000.0;
