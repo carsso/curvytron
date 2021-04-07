@@ -41,8 +41,7 @@ BaseAvatar.prototype.constructor = BaseAvatar;
  *
  * @type {Number}
  */
-BaseAvatar.prototype.velocity = 4.0;
-BaseAvatar.prototype.desiredVelocity = 4.0;
+BaseAvatar.prototype.velocity = 16.0;
 BaseAvatar.prototype.minVelocity = 4.0;
 BaseAvatar.prototype.maxVelocity = 20.0;
 BaseAvatar.prototype.maxVelocityAfterMiliseconds = 5000.0;
@@ -221,7 +220,7 @@ BaseAvatar.prototype.degradeAcceleration = function(step)
  */
 BaseAvatar.prototype.setVelocity = function(velocity)
 {
-    velocity = Math.max(velocity, this.desiredVelocity/2);
+    velocity = Math.max(velocity, BaseAvatar.prototype.velocity/2);
 
     if (this.velocity !== velocity) {
         this.velocity = velocity;
@@ -248,7 +247,7 @@ BaseAvatar.prototype.updateVelocities = function()
 BaseAvatar.prototype.updateBaseAngularVelocity = function()
 {
     if (this.directionInLoop) {
-        var ratio = this.velocity / this.desiredVelocity;
+        var ratio = this.velocity / BaseAvatar.prototype.velocity;
         this.angularVelocityBase = ratio * BaseAvatar.prototype.angularVelocityBase + Math.log(1/ratio)/1000;
         this.updateAngularVelocity();
     }
@@ -466,13 +465,11 @@ BaseAvatar.prototype.updateLerpVelocity = function(age)
 {
     if(age > this.maxVelocityAfterMiliseconds)
     {
-        console.log(age, '>',this.maxVelocityAfterMiliseconds);
-        this.desiredVelocity = this.maxVelocity;
-        return;
+        BaseAvatar.prototype.velocity = Math.floor(this.maxVelocity);
+    } else {
+        var vel = (age / this.maxVelocityAfterMiliseconds) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
+        vel = Math.min(vel, this.maxVelocity);
+        BaseAvatar.prototype.velocity = Math.floor(vel);
     }
-
-    var vel = (age / this.maxVelocityAfterMiliseconds) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
-    vel = Math.min(vel,this.maxVelocity);
-    this.desiredVelocity = vel;
-    console.log(this.desiredVelocity);
+    console.log(BaseAvatar.prototype.velocity);
 };
