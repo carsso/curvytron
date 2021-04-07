@@ -464,7 +464,7 @@ BaseAvatar.prototype.updateAcceleration = function(amount){
 
 BaseAvatar.prototype.updateLerpVelocity = function(age)
 {
-    if(age / this.maxVelocityAfterMiliseconds)
+    if(age > this.maxVelocityAfterMiliseconds)
     {
         this.desiredVelocity = this.maxVelocity;
         return;
