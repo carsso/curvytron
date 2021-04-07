@@ -69,6 +69,7 @@ Avatar.prototype.update = function(step)
     }
 
     this.timeAlive += step;
+    console.log('timeAlive', this.timeAlive);
     if(this.timeAlive < 10000 && !this.local)
     {
         this.saturation += step / 150;
