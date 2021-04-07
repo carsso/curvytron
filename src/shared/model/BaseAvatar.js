@@ -41,7 +41,9 @@ BaseAvatar.prototype.constructor = BaseAvatar;
  *
  * @type {Number}
  */
-BaseAvatar.prototype.velocity = 16;
+BaseAvatar.prototype.velocity = 4; // TODO revert to 16!!!
+BaseAvatar.prototype.minVelocity = 4; // TODO revert to 16!!!
+BaseAvatar.prototype.maxVelocity = 16; // TODO revert to 16!!!
 
 /**
  * Turn velocity
@@ -456,4 +458,11 @@ BaseAvatar.prototype.updateAcceleration = function(amount){
 
     //this.accelerationTriggeredAt = Date.now();
     this.updateVelocities();
+};
+
+BaseAvatar.prototype.updateLerpVelocity = function(age)
+{
+    var vel = (age / 20000) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
+    vel = Math.max(vel,this.maxVelocity);
+    return vel;
 };

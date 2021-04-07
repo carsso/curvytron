@@ -85,6 +85,7 @@ Avatar.prototype.update = function(step)
     this.startX  = this.canvas.round(this.x * this.canvas.scale - this.canvasRadius);
     this.startY  = this.canvas.round(this.y * this.canvas.scale - this.canvasRadius);
     this.changed = false;
+    this.updateLerpVelocity(this.timeAlive);
 };
 
 /**
@@ -234,6 +235,7 @@ Avatar.prototype.clear = function()
     this.brightness = this.defaultBrightness;
     this.updateWidth();
     this.drawHead();
+    this.updateLerpVelocity(this.timeAlive);
 };
 
 /**
