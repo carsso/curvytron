@@ -69,7 +69,7 @@ Avatar.prototype.update = function(step)
     }
 
     this.timeAlive += step;
-    this.updateLerpVelocity(this.timeAlive);
+    //this.updateLerpVelocity(this.timeAlive);
     if(this.timeAlive < 10000 && !this.local)
     {
         this.saturation += step / 150;
@@ -235,7 +235,7 @@ Avatar.prototype.clear = function()
     this.brightness = this.defaultBrightness;
     this.updateWidth();
     this.drawHead();
-    this.updateLerpVelocity(this.timeAlive);
+    //this.updateLerpVelocity(this.timeAlive);
 };
 
 /**
