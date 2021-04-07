@@ -41,10 +41,11 @@ BaseAvatar.prototype.constructor = BaseAvatar;
  *
  * @type {Number}
  */
-BaseAvatar.prototype.velocity = 4;
-BaseAvatar.prototype.minVelocity = 4;
-BaseAvatar.prototype.maxVelocity = 20;
-BaseAvatar.prototype.maxVelocityAfterMiliseconds = 5000;
+BaseAvatar.prototype.velocity = 4.0;
+BaseAvatar.prototype.desiredVelocity = 4.0;
+BaseAvatar.prototype.minVelocity = 4.0;
+BaseAvatar.prototype.maxVelocity = 20.0;
+BaseAvatar.prototype.maxVelocityAfterMiliseconds = 5000.0;
 
 /**
  * Turn velocity
@@ -220,7 +221,7 @@ BaseAvatar.prototype.degradeAcceleration = function(step)
  */
 BaseAvatar.prototype.setVelocity = function(velocity)
 {
-    velocity = Math.max(velocity, BaseAvatar.prototype.velocity/2);
+    velocity = Math.max(velocity, this.desiredVelocity/2);
 
     if (this.velocity !== velocity) {
         this.velocity = velocity;
@@ -233,7 +234,7 @@ BaseAvatar.prototype.setVelocity = function(velocity)
  */
 BaseAvatar.prototype.updateVelocities = function()
 {
-    var velocity = this.velocityCoefficient * (this.velocity/1000);
+    var velocity = this.velocityCoefficient * (this.desiredVelocity/1000);
 
     this.velocityX = Math.cos(this.angle) * velocity;
     this.velocityY = Math.sin(this.angle) * velocity;
@@ -247,7 +248,7 @@ BaseAvatar.prototype.updateVelocities = function()
 BaseAvatar.prototype.updateBaseAngularVelocity = function()
 {
     if (this.directionInLoop) {
-        var ratio = this.velocity / BaseAvatar.prototype.velocity;
+        var ratio = this.velocity / this.desiredVelocity;
         this.angularVelocityBase = ratio * BaseAvatar.prototype.angularVelocityBase + Math.log(1/ratio)/1000;
         this.updateAngularVelocity();
     }
@@ -448,13 +449,13 @@ BaseAvatar.prototype.updateAcceleration = function(amount){
     //     return;
     // }
     //console.log("Updating acceleration:"+amount)
-    
+
     if(amount > 0){
         this.velocityCoefficient = 1.5;
     } else if( amount < 0 ){
         this.velocityCoefficient = 0.65;
     } else {
-        this.velocityCoefficient = 1.0;   
+        this.velocityCoefficient = 1.0;
     }
 
     //this.accelerationTriggeredAt = Date.now();
@@ -463,8 +464,14 @@ BaseAvatar.prototype.updateAcceleration = function(amount){
 
 BaseAvatar.prototype.updateLerpVelocity = function(age)
 {
+    if(age / this.maxVelocityAfterMiliseconds)
+    {
+        this.desiredVelocity = this.maxVelocity;
+        return;
+    }
+
     var vel = (age / this.maxVelocityAfterMiliseconds) * (this.maxVelocity - this.minVelocity) + this.minVelocity;
     vel = Math.max(vel,this.maxVelocity);
-    this.velocity = vel;
-    console.log(this.velocity);
+    this.desiredVelocity = vel;
+    console.log(this.desiredVelocity);
 };
