@@ -168,6 +168,19 @@ BaseRoomConfig.prototype.getMaxScore = function()
     return this.maxScore ? this.maxScore : this.getDefaultMaxScore();
 };
 
+
+/**
+ * Get game duration in seconds
+ *
+ * @return {Number}
+ */
+BaseRoomConfig.prototype.getGameDurationInSeconds = function()
+{
+    return 4 * 60;
+};
+
+
+
 /**
  * Get max score
  *

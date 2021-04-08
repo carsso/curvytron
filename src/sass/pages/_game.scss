@@ -81,13 +81,13 @@
             }
         }
 
-        .maxScore {
+        .remainingTime {
             padding: 0 10px 0 20px;
             text-align: left;
             background: lighten($aside-background, 8%);
             margin-bottom: 0;
-            font-size: 72px;
-            color: $aside-background;
+            font-size: 68px;
+            color: rgba(238, 238, 238, 0.3);
             position: fixed;
             overflow: hidden;
             right: 0;
@@ -109,7 +109,7 @@
                 position: absolute;
                 right: 20px;
                 bottom: 0;
-                font-size: 116px;
+                font-size: 68px;
                 font-weight: bold;
             }
         }

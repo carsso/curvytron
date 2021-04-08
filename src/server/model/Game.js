@@ -40,6 +40,7 @@ Game.prototype.update = function(step)
         avatar, border, i, borderX, borderY, borderAxis, position, killer;
 
     this.deathInFrame = false;
+    this.remainingTimeInMilliseconds = Math.max((this.gameDurationInSeconds * 1000) - (Date.now() - this.startTime), 0);
 
     for (i = this.avatars.items.length - 1; i >= 0; i--) {
         avatar = this.avatars.items[i];
@@ -130,19 +131,31 @@ Game.prototype.isWon = function()
     if (this.avatars.count() > 1 && present <= 1) { return true; }
 
     var maxScore = this.maxScore,
-        players = this.avatars.filter(function () { return this.present && this.score >= maxScore; });
+        players = this.avatars.filter(function () { return this.present });
 
-    if (players.count() === 0) {
-        return null;
-    }
-
-    if (players.count() === 1) {
-        return players.getFirst();
-    }
 
     this.sortAvatars(players);
 
-    return players.items[0].score === players.items[1].score ? null : players.getFirst();
+    if(this.remainingTimeInMilliseconds < 1)
+    {
+        return players.getFirst();
+    }
+    else
+    {
+        return false;
+    }
+
+    // if (players.count() === 0) {
+    //     return null;
+    // }
+
+    // if (players.count() === 1) {
+    //     return players.getFirst();
+    // }
+
+    // this.sortAvatars(players);
+
+    // return players.items[0].score === players.items[1].score ? null : players.getFirst();
 };
 
 /**

@@ -120,6 +120,20 @@ GameController.prototype.loadGame = function(game)
     this.$scope.game    = this.game;
     this.$scope.avatars = this.game.avatars.items;
     this.$scope.teams   = this.game.teams.items;
+    
+    var that = this;
+
+    this.updateTimer = function()
+    {
+        game.remainingTimeInMilliseconds = Math.max((game.gameDurationInSeconds * 1000) - (Date.now() - game.startTime), 0);
+        if(isNaN(game.remainingTimeInMilliseconds)) game.remainingTimeInMilliseconds = game.gameDurationInSeconds * 1000;
+    
+        that.$scope.$apply();
+        setTimeout(that.updateTimer, 0);
+    }
+    setTimeout(this.updateTimer, 0);
+
+
 
     this.attachEvents();
 
@@ -185,6 +199,8 @@ GameController.prototype.onExit = function()
         this.repository.parent.leave();
         this.chat.clear();
     }
+
+    clearTimeout(this.updateTimer);
 
     window.onbeforeunload = null;
 

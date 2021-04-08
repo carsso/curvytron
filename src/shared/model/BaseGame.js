@@ -15,6 +15,9 @@ function BaseGame(room)
     this.size         = this.getSize(this.avatars.count());
     this.rendered     = null;
     this.maxScore     = room.config.getMaxScore();
+    this.gameDurationInSeconds = room.config.getGameDurationInSeconds();
+    this.remainingTimeInMilliseconds = this.gameDurationInSeconds * 1000;
+    this.startTime = Date.now();
     this.fps          = new FPSLogger();
     this.started      = false;
     this.bonusManager = new BonusManager(this, room.config.getBonuses(), room.config.getVariable('bonusRate'));
@@ -327,7 +330,8 @@ BaseGame.prototype.serialize = function()
     return {
         name: this.name,
         players: this.avatars.map(function () { return this.serialize(); }).items,
-        maxScore: this.maxScore
+        maxScore: this.maxScore,
+        remainingTimeInMilliseconds: this.remainingTimeInMilliseconds,
     };
 };
 
