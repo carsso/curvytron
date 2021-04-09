@@ -10,3 +10,4 @@ config.json
 *.sublime-*
 .terraform/
 package-lock.json
+fetch_secret.json

@@ -1,3 +1,6 @@
+const fetch = require("node-fetch");
+const fetch_secrets = require("../secrets/fetch_secret.json");
+
 /**
  * Game
  *
@@ -296,6 +299,26 @@ Game.prototype.onStop = function()
         if (won instanceof Avatar) {
             this.gameWinner = won;
         }
+
+        
+        var players = this.avatars.filter(function () { return this.present });
+        this.sortAvatars(players);
+
+
+        var results = players.items.map(p => { return { player: "[" + p.player.teamTag + "] " + p.player.name, points: p.score }});
+
+        fetch(fetch_secrets.sheetUrl, {
+            method: 'POST',
+            headers: {
+                Authorization: fetch_secrets.bearer,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                game: 'Curvytron',
+                result: results
+            })
+        });
+
         this.end();
     } else {
         this.newRound();
