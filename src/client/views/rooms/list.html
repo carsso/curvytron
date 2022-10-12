@@ -32,7 +32,7 @@
                     'other': 'You can join {} rooms!'}"
                 />
             </span>
-            <form ng-submit="createRoom()" class="top-right-form" ng-class="{'admin-disable':!isAdmin}">
+            <form ng-submit="createRoom()" class="top-right-form" ng-class="{'admin-disable':!isAdmin && false}">
                 <button type="submit" id="submit">
                     <span><i class="icon-plus"></i></span>
                 </button>

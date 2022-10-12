@@ -176,7 +176,7 @@ BaseRoomConfig.prototype.getMaxScore = function()
  */
 BaseRoomConfig.prototype.getGameDurationInSeconds = function()
 {
-    return 3 * 60;
+    return 10 * 60;
 };
 
 
