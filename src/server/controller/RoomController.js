@@ -38,7 +38,6 @@ function RoomController(room)
         onKickVote: function (data) { controller.onKickVote(this, data[0], data[1]); },
         onName: function (data) { controller.onName(this, data[0], data[1]); },
         onTeamTag: function (data) { controller.onTeamTag(this, data[0], data[1]); },
-        onTeam: function (data) { controller.onTeam(this, data[0], data[1]);},
         onColor: function (data) { controller.onColor(this, data[0], data[1]); },
         onLeave: function () { controller.onLeave(this); },
         onActivity: function () { controller.onActivity(this); },
@@ -158,7 +157,6 @@ RoomController.prototype.attachEvents = function(client)
     client.on('player:kick', this.callbacks.onKickVote);
     client.on('room:ready', this.callbacks.onReady);
     client.on('room:color', this.callbacks.onColor);
-    client.on('room:team', this.callbacks.onTeam);
     client.on('room:name', this.callbacks.onName);
     client.on('room:teamTag', this.callbacks.onTeamTag);
     client.on('players:clear', this.onPlayersClear);
@@ -180,7 +178,6 @@ RoomController.prototype.detachEvents = function(client)
     client.removeListener('player:kick', this.callbacks.onKickVote);
     client.removeListener('room:ready', this.callbacks.onReady);
     client.removeListener('room:color', this.callbacks.onColor);
-    client.removeListener('room:team', this.callbacks.onTeam);
     client.removeListener('room:name', this.callbacks.onName);
     client.removeListener('room:teamTag', this.callbacks.onTeamTag);
     client.removeListener('players:clear', this.onPlayersClear);
@@ -502,22 +499,6 @@ RoomController.prototype.onColor = function(client, data, callback)
     if (player.setColor(color)) {
         callback({success: true, color: player.color});
         this.socketGroup.addEvent('player:color', { player: player.id, color: player.color });
-    } else {
-        callback({success: false, color: player.color});
-    }
-};
-
-RoomController.prototype.onTeam = function(client, data, callback)
-{
-    var player = client.players.getById(data.player),
-        teamName = data.team;
-    if (!player) {
-        return callback({success: false});
-    }
-
-    if (player.setTeam(teamName)) {
-        callback({success: true, team: player.teamName});
-        this.socketGroup.addEvent('player:team', { player: player.id, team: player.teamName });
     } else {
         callback({success: false, color: player.color});
     }

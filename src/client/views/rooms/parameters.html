@@ -1,10 +1,14 @@
 <div class="row">
-    <div class="col-lg-4 max-score">
-        <h2>Victory score</h2>
-        <input type="number" class="form-control" id="max-score" ng-change="setMaxScore(config.maxScore)" ng-model="config.maxScore" placeholder="{{ config.getDefaultMaxScore() }}" maxlength="3" ng-disabled="!master" />
+    <div class="col-lg-4 ">
+        <div class="max-score">
+            <h2>Victory score</h2>
+            <input type="number" class="form-control" id="max-score" ng-change="setMaxScore(config.maxScore)" ng-model="config.maxScore" placeholder="{{ config.getDefaultMaxScore() }}" maxlength="3" ng-disabled="!master" />
+        </div>
 
-        <h2>Game duration (seconds)</h2>
-        <input type="number" class="form-control" id="game-duration" ng-change="setGameDuration(config.gameDuration)" ng-model="config.gameDuration" placeholder="{{ config.getDefaultGameDuration() }}" maxlength="4" ng-disabled="!master" />
+        <div class="game-duration">
+            <h2>Game duration (seconds)</h2>
+            <input type="number" class="form-control" id="game-duration" ng-change="setGameDuration(config.gameDuration)" ng-model="config.gameDuration" placeholder="{{ config.getDefaultGameDuration() }}" maxlength="4" ng-disabled="!master" />
+        </div>
 
         <div class="public-room">
             <h2>Your room is</h2>
@@ -26,7 +30,7 @@
                 <input type="checkbox" id="open" ng-model="config.team" ng-change="setTeam(config.team)" ng-disabled="!master" class="check">
                 <b class="b switch"></b>
             </div>
-            <label class="toggler" ng-class="{ 'active': config.team }" id="is-individual" ng-click="setTeam(false)">Disabled</label>
+            <label class="toggler" ng-class="{ 'active': config.team != true }" id="is-individual" ng-click="setTeam(false)">Disabled</label>
         </div>
     </div>
     <div class="col-lg-8 bonus-list">

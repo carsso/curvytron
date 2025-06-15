@@ -24,7 +24,6 @@ function RoomRepository(client)
     this.onPlayerColor    = this.onPlayerColor.bind(this);
     this.onPlayerName     = this.onPlayerName.bind(this);
     this.onPlayerTeamTag  = this.onPlayerTeamTag.bind(this);
-    this.onPlayerTeam     = this.onPlayerTeam.bind(this);
     this.onConfigOpen     = this.onConfigOpen.bind(this);
     this.onConfigTeam     = this.onConfigTeam.bind(this);
     this.onConfigMaxScore = this.onConfigMaxScore.bind(this);
@@ -55,7 +54,6 @@ RoomRepository.prototype.attachEvents = function()
     this.client.on('player:color', this.onPlayerColor);
     this.client.on('player:name', this.onPlayerName);
     this.client.on('player:teamTag', this.onPlayerTeamTag);
-    this.client.on('player:team', this.onPlayerTeam);
     this.client.on('room:config:open', this.onConfigOpen);
     this.client.on('room:config:team', this.onConfigTeam);
     this.client.on('room:config:max-score', this.onConfigMaxScore);
@@ -83,7 +81,6 @@ RoomRepository.prototype.detachEvents = function()
     this.client.off('room:game:start', this.onGameStart);
     this.client.off('player:ready', this.onPlayerReady);
     this.client.off('player:color', this.onPlayerColor);
-    this.client.off('player:team', this.onPlayerTeam);
     this.client.off('player:name', this.onPlayerName);
     this.client.off('player:teamTag', this.onPlayerTeamTag);
     this.client.off('room:config:open', this.onConfigOpen);
@@ -345,7 +342,7 @@ RoomRepository.prototype.setTeam = function(player, team, callback)
         team: team.substr(0, Player.prototype.teamMaxLength)
     }, function (result) {
         if (!result.success) {
-            console.error('Could not set team %s for player %s', player.teamName, player.name);
+            console.error('Could not set team %s for player %s', player.teamTag, player.name);
         }
         player.setTeam(result.team);
         callback(result);
@@ -558,17 +555,6 @@ RoomRepository.prototype.onPlayerColor = function(e)
     if (player) {
         player.setColor(data.color);
         this.emit('player:color', {player: player});
-    }
-};
-
-RoomRepository.prototype.onPlayerTeam = function(e)
-{
-    var data = e.detail,
-        player = this.room.players.getById(data.player);
-
-    if (player) {
-        player.setTeam(data.team);
-        this.emit('player:team', {player: player});
     }
 };
 

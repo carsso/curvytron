@@ -46,7 +46,6 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.setReady         = this.setReady.bind(this);
     this.setName          = this.setName.bind(this);
     this.setTouch         = this.setTouch.bind(this);
-    this.setTeam          = this.setTeam.bind(this);
     this.setTeamTag       = this.setTeamTag.bind(this);
     this.updateProfile    = this.updateProfile.bind(this);
     this.toggleParameters = this.toggleParameters.bind(this);
@@ -70,7 +69,6 @@ function RoomController($scope, $routeParams, $location, client, repository, pro
     this.$scope.removePlayer      = this.removePlayer;
     this.$scope.kickPlayer        = this.kickPlayer;
     this.$scope.setColor          = this.setColor;
-    this.$scope.setTeam           = this.setTeam;
     this.$scope.setTeamTag        = this.setTeamTag;
     this.$scope.setReady          = this.setReady;
     this.$scope.setName           = this.setName;
@@ -360,18 +358,6 @@ RoomController.prototype.setColor = function(player)
     );
 };
 
-RoomController.prototype.setTeam = function(player)
-{
-    if (!player.local) { return; }
-    
-    var controller = this;
-
-    this.repository.setTeam(
-        player,
-        player.teamName,
-        controller.digestScope
-    );
-};
 /**
  * Set player name
  *

@@ -16,13 +16,15 @@
         </button>
 
         <h3>
-            <p class="count">
-                <ng-pluralize count="room.players.items.length" when="{
-                    '0': 'No player',
-                    'one': '1 player',
-                    'other': '{} players'}"
-                />
-            </p>
+            <div class="count">
+                <span>
+                    <ng-pluralize count="room.players.items.length" when="{
+                        '0': 'No player',
+                        'one': '1 player',
+                        'other': '{} players'}"
+                    ></ng-pluralize>
+                </span>&nbsp;-&nbsp;<span>{{ room.config.team ? 'Team game' : 'Individual game' }}</span>
+            </div>
         </h3>
         <div class="clearfix"></div>
 
@@ -34,16 +36,23 @@
                     Activate the touch controls!
                 </button>
             </div>
+            <div ng-repeat="player in room.players.items track by player.id | orderBy:'position'" ng-if="player.local" class="text-right">
+                <button class="btn btn-default control"
+                    ng-repeat="control in ::player.controls track by $index"
+                    ng-click="control.toggle()"
+                    ng-class="{ 'active': control.mapper.listening }"
+                >
+                    {{ control.mapper.view }}
+                </button>
+            </div>
             <table class="room-players table v-align-middle">
                 <thead>
                     <tr>
                         <th class="col-remove"></th>
                         <th class="col-icon"></th>
-                        <th class="col-teamTag">Team Tag</th>
+                        <th class="col-team">Team</th>
                         <th class="col-player">Name</th>
-                        <th class="col-team" ng-if="room.config.team">Team</th>
                         <th class="col-color">Color</th>
-                        <th class="col-keys">Controls</th>
                         <th class="col-ready">Ready?</th>
                     </tr>
                 </thead>
@@ -63,60 +72,19 @@
                             <span ng-if="player.isMaster()" class="icon icon-crown pull-left"></span>
                         </td>
                         <td class="col-teamTag">
-                            <select
+                            <input
                                 type="text"
                                 ng-blur="setTeamTag(player)"
                                 ng-model="player.teamTag"
                                 class="form-control player-team-tag"
                                 name="teamTag"
-                                placeholder="TEAM"
-                            >
-                                <option>IKEA</option>
-                                <option>UWSQ</option>
-                                <option>SKODA</option>
-                                <option>Hans</option>
-                                <option>Test</option>
-                                <option>Zefix</option>
-                                <option>CAT</option>
-                                <option>NRDC</option>
-                                <option>Hans</option>
-                                <option>FOFO</option>
-                                <option>KEKW</option>
-                                <option>HOSE</option>
-                                <option>MPM</option>
-                                <option>OMG</option>
-                                <option>TWSQ</option>
-                                <option>SLOTH</option>
-                                <option>NRDC</option>
-                                <option>REAL</option>
-                                <option>LOS</option>
-                                <option>ZNG</option>
-                                <option>FV</option>
-                                <option>E.T.</option>
-                                <option>CDEMR</option>
-                                <option>Quark</option>
-                                <option>MG</option>
-                                <option>KP</option>
-                                <option>ERROR</option>
-                            </select>
+                            />
                         </td>
                         <td class="col-player">
                             <input type="text" ng-model="player.name" ng-blur="setName(player)" class="form-control player-name" name="name" maxlength="{{ ::nameMaxLength }}" />
                         </td>
-                        <td class="col-team" ng-if="room.config.team">
-                            <input type="text" ng-model="player.teamName" ng-blur="setTeam(player)" class="form-control control" name="teamName" maxlength="{{ ::teamMaxLength }}" />
-                        </td>
                         <td class="col-color">
                             <input type="text" colorpicker="hex" colorpicker-position="right" ng-model="player.color" ng-blur="setColor(player)" class="form-control player-color" name="color" placeholder="#CCCCCC" style="border-color: {{ player.color }};" maxlength="{{ ::colorMaxLength }}" />
-                        </td>
-                        <td class="col-keys">
-                            <button class="btn btn-default control"
-                                ng-repeat="control in ::player.controls track by $index"
-                                ng-click="control.toggle()"
-                                ng-class="{ 'active': control.mapper.listening }"
-                            >
-                                {{ control.mapper.view }}
-                            </button>
                         </td>
                         <td class="col-ready">
                             <div class="player-ready local" ng-click="setReady(player)" ng-class="{ ready: player.ready }">
@@ -143,14 +111,10 @@
                         <td class="col-player">
                             <p class="player-name">{{ player.name }}</p>
                         </td>
-                        <td class="col-team" ng-if="room.config.team">
-                            <p class="player-name">{{ player.teamName }}</p>
-                        </td>
                         <td class="col-color">
                             <span class="line-color-preview" style="background-color: {{ player.color }};"></span>
                             <p>{{ player.color }}</p>
                         </td>
-                        <td class="col-keys"></td>
                         <td class="col-ready">
                             <div class="player-ready" ng-class="{ ready: player.ready }">
                                 <span>

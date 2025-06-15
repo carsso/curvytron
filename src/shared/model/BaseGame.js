@@ -34,10 +34,10 @@ function BaseGame(room)
 
     if (room.config.team) {
         var attachTeams = function(player) {
-            var teamName = player.teamName || player.color;
-            var team = this.teams.find(function(team) { return team.name === teamName; });
+            var teamTag = player.teamTag || player.color;
+            var team = this.teams.find(function(team) { return team.name === teamTag; });
             if (!team) {
-                team = new Team(teamName);
+                team = new Team(teamTag);
                 this.teams.add(team);
             }
             team.add(player);
