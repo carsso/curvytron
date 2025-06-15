@@ -16,7 +16,7 @@ function BaseRoomConfig(room)
     };
 
     this.bonuses  = {
-        BonusSelfGodzilla: false,
+        BonusSelfGodzilla: true,
         BonusSelfSmall: true,
         BonusSelfSlow: true,
         BonusSelfFast: true,

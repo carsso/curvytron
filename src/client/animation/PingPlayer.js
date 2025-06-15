@@ -14,7 +14,7 @@ function PingPlayer(avatar, effect)
 
 
     var thisRef = this;
-    this.effectTimer = setInterval(function() { thisRef.draw() }, this.framerate);
+    this.effectTimer = setInterval(function() { thisRef.draw(); }, this.framerate);
 }
 
 /**
@@ -62,7 +62,7 @@ PingPlayer.prototype.draw = function ()
         this.effect.drawImageScaledAngle(this.avatar.arrow.element, this.avatar.x - 5, this.avatar.y - 5, 10, 10, this.avatar.angle);
     } else {
         this.clear();
-        console.log("done");
+        console.log('done');
         clearTimeout(this.effectTimer);
         this.done = true;
     }
@@ -93,14 +93,14 @@ PingPlayer.prototype.easingFunction = function (x)
 PingPlayer.prototype.smoothStart3 = function(x)
 {
     return x * x * x * x;
-}
+};
 
 PingPlayer.prototype.smoothStop3 = function(x)
 {
     return this.flip(this.smoothStart3(this.flip(x)));
-}
+};
 
 PingPlayer.prototype.flip = function(x)
 {
     return 1 - x;
-}
+};

@@ -38,7 +38,6 @@ function RoomController(room)
         onKickVote: function (data) { controller.onKickVote(this, data[0], data[1]); },
         onName: function (data) { controller.onName(this, data[0], data[1]); },
         onTeamTag: function (data) { controller.onTeamTag(this, data[0], data[1]); },
-        onTeamTag: function (data) { controller.onTeamTag(this, data[0], data[1]); },
         onTeam: function (data) { controller.onTeam(this, data[0], data[1]);},
         onColor: function (data) { controller.onColor(this, data[0], data[1]); },
         onLeave: function () { controller.onLeave(this); },
@@ -408,8 +407,7 @@ RoomController.prototype.onPlayerAdd = function(client, data, callback)
         color = typeof(data.color) !== 'undefined' ? data.color : null,
         team = typeof(data.team) !== 'undefined' ? data.team : null;
 
-
-    console.info("Added player [" + teamTag + "] " + name);
+    console.info('Added player [' + teamTag + '] ' + name);
 
     if (!name.length) {
         return callback({success: false, error: 'Invalid name.'});

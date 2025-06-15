@@ -331,7 +331,7 @@ BaseGame.prototype.serialize = function()
         name: this.name,
         players: this.avatars.map(function () { return this.serialize(); }).items,
         maxScore: this.maxScore,
-        remainingTimeInMilliseconds: this.remainingTimeInMilliseconds,
+        remainingTimeInMilliseconds: this.remainingTimeInMilliseconds
     };
 };
 

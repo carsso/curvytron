@@ -564,7 +564,7 @@ RoomRepository.prototype.onPlayerTeam = function(e)
  */
 RoomRepository.prototype.onPlayerName = function(e)
 {
-    console.log("In onPlayerName");
+    console.log('In onPlayerName');
     console.log(this);
     var data = e.detail,
         player = this.room.players.getById(data.player);
@@ -583,12 +583,12 @@ RoomRepository.prototype.onPlayerName = function(e)
  */
 RoomRepository.prototype.onPlayerTeamTag = function(e)
 {
-    console.log("In onPlayerTeamTag");
+    console.log('In onPlayerTeamTag');
     console.log(this);
     var data = e.detail,
         player = this.room.players.getById(data.player);
 
-    console.info("Setting teamTag of player to " + data.teamTag);
+    console.info('Setting teamTag of player to ' + data.teamTag);
 
     if (player) {
         player.setTeamTag(data.teamTag);
