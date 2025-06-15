@@ -28,6 +28,7 @@ function RoomRepository(client)
     this.onConfigOpen     = this.onConfigOpen.bind(this);
     this.onConfigTeam     = this.onConfigTeam.bind(this);
     this.onConfigMaxScore = this.onConfigMaxScore.bind(this);
+    this.onConfigGameDuration = this.onConfigGameDuration.bind(this);
     this.onConfigVariable = this.onConfigVariable.bind(this);
     this.onConfigBonus    = this.onConfigBonus.bind(this);
     this.onKick           = this.onKick.bind(this);
@@ -58,6 +59,7 @@ RoomRepository.prototype.attachEvents = function()
     this.client.on('room:config:open', this.onConfigOpen);
     this.client.on('room:config:team', this.onConfigTeam);
     this.client.on('room:config:max-score', this.onConfigMaxScore);
+    this.client.on('room:config:game-duration', this.onConfigGameDuration);
     this.client.on('room:config:variable', this.onConfigVariable);
     this.client.on('room:config:bonus', this.onConfigBonus);
     this.client.on('room:launch:start', this.forwardEvent);
@@ -87,6 +89,7 @@ RoomRepository.prototype.detachEvents = function()
     this.client.off('room:config:open', this.onConfigOpen);
     this.client.off('room:config:team', this.onConfigTeam);
     this.client.off('room:config:max-score', this.onConfigMaxScore);
+    this.client.off('room:config:game-duration', this.onConfigGameDuration);
     this.client.off('room:config:variable', this.onConfigVariable);
     this.client.off('room:config:bonus', this.onConfigBonus);
     this.client.off('room:launch:start', this.forwardEvent);
@@ -192,6 +195,7 @@ RoomRepository.prototype.createRoom = function(data, clients)
     room.config.setTeam(data.config.team);
     room.config.setPassword(data.config.password);
     room.config.setMaxScore(data.config.maxScore);
+    room.config.setGameDuration(data.config.gameDuration);
 
     for (var variable in data.config.variables) {
         if (data.config.variables.hasOwnProperty(variable)) {
@@ -417,6 +421,17 @@ RoomRepository.prototype.setConfigOpen = function(open, callback)
 RoomRepository.prototype.setConfigMaxScore = function(maxScore, callback)
 {
     this.client.addEvent('room:config:max-score', {maxScore: parseInt(maxScore, 10)}, callback);
+};
+
+/**
+ * Set config game duration
+ *
+ * @param {Number} gameDuration
+ * @param {Function} callback
+ */
+RoomRepository.prototype.setConfigGameDuration = function(gameDuration, callback)
+{
+    this.client.addEvent('room:config:game-duration', {gameDuration: parseInt(gameDuration, 10)}, callback);
 };
 
 /**
@@ -662,6 +677,19 @@ RoomRepository.prototype.onConfigMaxScore = function(e)
 
     this.room.config.setMaxScore(data.maxScore);
     this.emit('config:max-score', {maxScore: data.maxScore});
+};
+
+/**
+ * On config game duration
+ *
+ * @param {Event} e
+ */
+RoomRepository.prototype.onConfigGameDuration = function(e)
+{
+    var data = e.detail;
+
+    this.room.config.setGameDuration(data.gameDuration);
+    this.emit('config:game-duration', {gameDuration: data.gameDuration});
 };
 
 /**

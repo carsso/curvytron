@@ -7,6 +7,7 @@ function BaseRoomConfig(room)
 
     this.room     = room;
     this.maxScore = null;
+    this.gameDuration = null;
     this.open     = true;
     this.team     = false;
     this.password = null;
@@ -168,6 +169,19 @@ BaseRoomConfig.prototype.getMaxScore = function()
     return this.maxScore ? this.maxScore : this.getDefaultMaxScore();
 };
 
+/**
+ * Set game duration
+ *
+ * @param {Number} duration in seconds
+ */
+BaseRoomConfig.prototype.setGameDuration = function(duration)
+{
+    duration = parseInt(duration, 10);
+
+    this.gameDuration = duration ? duration : null;
+
+    return true;
+};
 
 /**
  * Get game duration in seconds
@@ -176,10 +190,18 @@ BaseRoomConfig.prototype.getMaxScore = function()
  */
 BaseRoomConfig.prototype.getGameDurationInSeconds = function()
 {
-    return 10 * 60;
+    return this.gameDuration ? this.gameDuration : this.getDefaultGameDuration();
 };
 
-
+/**
+ * Get default game duration in seconds
+ *
+ * @return {Number}
+ */
+BaseRoomConfig.prototype.getDefaultGameDuration = function()
+{
+    return 10 * 60; // 10 minutes
+};
 
 /**
  * Get max score
@@ -230,6 +252,7 @@ BaseRoomConfig.prototype.serialize = function()
 {
     return {
         maxScore: this.maxScore,
+        gameDuration: this.gameDuration,
         variables: this.variables,
         bonuses: this.bonuses,
         open: this.open,

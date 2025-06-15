@@ -18,6 +18,7 @@ function RoomConfigController($scope, repository)
     this.setTeam      = this.setTeam.bind(this);
     this.setOpen      = this.setOpen.bind(this);
     this.setMaxScore  = this.setMaxScore.bind(this);
+    this.setGameDuration = this.setGameDuration.bind(this);
     this.setVariable  = this.setVariable.bind(this);
 
     // Hydrating scope
@@ -26,10 +27,12 @@ function RoomConfigController($scope, repository)
     this.$scope.setOpen      = this.setOpen;
     this.$scope.setTeam      = this.setTeam;
     this.$scope.setMaxScore  = this.setMaxScore;
+    this.$scope.setGameDuration = this.setGameDuration;
     this.$scope.setVariable  = this.setVariable;
 
     this.repository.on('config:open', this.digestScope);
     this.repository.on('config:max-score', this.digestScope);
+    this.repository.on('config:game-duration', this.digestScope);
     this.repository.on('config:variable', this.digestScope);
     this.repository.on('config:bonus', this.digestScope);
     this.repository.on('config:team', this.digestScope);
@@ -140,6 +143,20 @@ RoomConfigController.prototype.setMaxScore = function(maxScore)
 
         this.repository.setConfigMaxScore(maxScore, function (result) {
             config.setMaxScore(result.maxScore);
+        });
+    }
+};
+
+/**
+ * Set game duration
+ */
+RoomConfigController.prototype.setGameDuration = function(gameDuration)
+{
+    if (this.repository.amIMaster()) {
+        var config = this.config;
+
+        this.repository.setConfigGameDuration(gameDuration, function (result) {
+            config.setGameDuration(result.gameDuration);
         });
     }
 };

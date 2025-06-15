@@ -296,17 +296,19 @@ Game.prototype.onStop = function()
             };
         });
 
-        fetch(fetchSecrets.sheetUrl, {
-            method: 'POST',
-            headers: {
-                Authorization: fetchSecrets.bearer,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                game: 'Curvytron',
-                result: results
-            })
-        });
+        if (fetchSecrets && fetchSecrets.sheetUrl) {
+            fetch(fetchSecrets.sheetUrl, {
+                method: 'POST',
+                headers: {
+                    Authorization: fetchSecrets.bearer,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    game: 'Curvytron',
+                    result: results
+                })
+            });
+        }
 
         this.end();
     } else {

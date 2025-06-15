@@ -45,6 +45,7 @@ function RoomController(room)
         onConfigTeam: function(data) { controller.onConfigTeam(this, data[0], data[1]); },
         onConfigOpen: function (data) { controller.onConfigOpen(this, data[0], data[1]); },
         onConfigMaxScore: function (data) { controller.onConfigMaxScore(this, data[0], data[1]); },
+        onConfigGameDuration: function (data) { controller.onConfigGameDuration(this, data[0], data[1]); },
         onConfigVariable: function (data) { controller.onConfigVariable(this, data[0], data[1]); },
         onConfigBonus: function (data) { controller.onConfigBonus(this, data[0], data[1]); },
         onLaunch: function (data) { controller.onLaunch(this); }
@@ -233,6 +234,7 @@ RoomController.prototype.setRoomMaster = function(client)
         this.roomMaster.on('room:config:open', this.callbacks.onConfigOpen);
         this.roomMaster.on('room:config:team', this.callbacks.onConfigTeam);
         this.roomMaster.on('room:config:max-score', this.callbacks.onConfigMaxScore);
+        this.roomMaster.on('room:config:game-duration', this.callbacks.onConfigGameDuration);
         this.roomMaster.on('room:config:variable', this.callbacks.onConfigVariable);
         this.roomMaster.on('room:config:bonus', this.callbacks.onConfigBonus);
         this.roomMaster.on('room:launch', this.callbacks.onLaunch);
@@ -251,6 +253,7 @@ RoomController.prototype.removeRoomMaster = function()
         this.roomMaster.removeListener('room:config:open', this.callbacks.onConfigOpen);
         this.roomMaster.removeListener('room:config:team', this.callbacks.onConfigTeam);
         this.roomMaster.removeListener('room:config:max-score', this.callbacks.onConfigMaxScore);
+        this.roomMaster.removeListener('room:config:game-duration', this.callbacks.onConfigGameDuration);
         this.roomMaster.removeListener('room:config:variable', this.callbacks.onConfigVariable);
         this.roomMaster.removeListener('room:config:bonus', this.callbacks.onConfigBonus);
         this.roomMaster.removeListener('room:launch', this.callbacks.onLaunch);
@@ -680,6 +683,26 @@ RoomController.prototype.onConfigMaxScore = function(client, data, callback)
 
     if (success) {
         this.socketGroup.addEvent('room:config:max-score', { maxScore: this.room.config.maxScore });
+    }
+};
+
+/**
+ * On config game duration
+ *
+ * @param {SocketClient} client
+ * @param {Object} data
+ * @param {Function} callback
+ */
+RoomController.prototype.onConfigGameDuration = function(client, data, callback)
+{
+    var success = this.isRoomMaster(client) && this.room.config.setGameDuration(data.gameDuration);
+
+    callback({success: success, gameDuration: this.room.config.getGameDurationInSeconds() });
+
+    if (success) {
+        this.socketGroup.addEvent('room:config:game-duration', { 
+            gameDuration: this.room.config.getGameDurationInSeconds() 
+        });
     }
 };
 
