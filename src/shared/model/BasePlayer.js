@@ -18,6 +18,7 @@ function BasePlayer(client, name, teamTag, color, ready)
     this.id     = null;
     this.avatar = null;
     this.team   = null;
+    this.fullName = '[' + this.teamTag + '] ' + this.name;
 }
 
 BasePlayer.prototype = Object.create(EventEmitter.prototype);
@@ -46,6 +47,7 @@ BasePlayer.prototype.teamMaxLength = 1;
 BasePlayer.prototype.setName = function(name)
 {
     this.name = name;
+    this.fullName = '[' + this.teamTag + '] ' + this.name;
 };
 
 /**
@@ -56,6 +58,7 @@ BasePlayer.prototype.setName = function(name)
 BasePlayer.prototype.setTeamTag = function(teamTag)
 {
     this.teamTag = teamTag;
+    this.fullName = '[' + this.teamTag + '] ' + this.name;
 };
 
 /**

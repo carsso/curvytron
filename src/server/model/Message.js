@@ -31,6 +31,7 @@ Message.prototype.buildPlayer = function()
 
     if (player) {
         this.name  = player.name;
+        this.fullName = player.fullName;
         this.color = player.color;
     }
 };
@@ -51,6 +52,7 @@ Message.prototype.serialize = function()
         content: this.content,
         creation: this.creation.getTime(),
         name: this.name,
-        color: this.color
+        color: this.color,
+        fullName: this.fullName
     };
 };

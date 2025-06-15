@@ -45,7 +45,7 @@ Game.prototype.update = function(step)
         avatar, border, i, borderX, borderY, borderAxis, position, killer;
 
     this.deathInFrame = false;
-    this.remainingTimeInMilliseconds = Math.max((this.gameDurationInSeconds * 1000) - (Date.now() - this.startTime), 0);
+    this.remainingTimeInMilliseconds = Math.max((this.gameDuration * 1000) - (Date.now() - this.startTime), 0);
 
     for (i = this.avatars.items.length - 1; i >= 0; i--) {
         avatar = this.avatars.items[i];
@@ -135,11 +135,27 @@ Game.prototype.isWon = function()
     if (present <= 0) { return true; }
     if (this.avatars.count() > 1 && present <= 1) { return true; }
 
-    var maxScore = this.maxScore,
-        players = this.avatars.filter(function() { return this.present; });
+    var players = this.avatars.filter(function() { return this.present; });
 
+    var maxScore = this.maxScore;
     this.sortAvatars(players);
 
+    // Won by score
+    if(this.room.config.team) {
+        var teams = this.teams;
+        this.sortTeams(teams);
+        // Won by team score
+        if(teams.filter(function () { return this.getScore() >= maxScore; }).count() > 0) {
+            return teams.getFirst();
+        }
+    } else {
+        // Won by individual score
+        if(players.filter(function () { return this.score >= maxScore; }).count() > 0) {
+            return players.getFirst();
+        }
+    }
+
+    // Won by time
     if(this.remainingTimeInMilliseconds < 1) {
         return players.getFirst();
     } else {
@@ -289,12 +305,26 @@ Game.prototype.onStop = function()
         var players = this.avatars.filter(function() { return this.present; });
         this.sortAvatars(players);
 
-        var results = players.items.map(function(p) { 
-            return { 
-                player: '[' + p.player.teamTag + '] ' + p.player.name, 
-                points: p.score 
-            };
-        });
+        var results = [];
+        if(this.room.config.team) {
+            // Won by team
+            var teams = this.teams;
+            this.sortTeams(teams);
+            results = teams.items.map(function(t) { 
+                return { 
+                    player: t.fullName, 
+                    points: t.getScore() 
+                };
+            });
+        } else {
+            // Won by individual
+            results = players.items.map(function(p) { 
+                return { 
+                    player: p.fullName, 
+                    points: p.score 
+                };
+            });
+        }
 
         if (fetchSecrets && fetchSecrets.sheetUrl) {
             fetch(fetchSecrets.sheetUrl, {

@@ -10,21 +10,23 @@
             <ng-include src="'js/views/rooms/parameters.html'"></ng-include>
         </div>
 
-        <button type="button" class="btn start-now" ng-click="launch()" ng-if="master || launching">
-            <span class="label" ng-if="!launching">Start now!</span>
-            <span id="starter-count" ng-if="launching">{{ launching }}</span>
-        </button>
+        <div class="float-right text-right">
+            <p>
+                <button type="button" class="btn start-now" ng-click="launch()" ng-if="master || launching">
+                    <span class="label" ng-if="!launching">Start now!</span>
+                    <span id="starter-count" ng-if="launching">{{ launching }}</span>
+                </button>
+            </p>
+        </div>
 
-        <h3>
-            <div class="count">
-                <span>
-                    <ng-pluralize count="room.players.items.length" when="{
-                        '0': 'No player',
-                        'one': '1 player',
-                        'other': '{} players'}"
-                    ></ng-pluralize>
-                </span>&nbsp;-&nbsp;<span>{{ room.config.team ? 'Team game' : 'Individual game' }}</span>
-            </div>
+        <h3 class="count">
+            <span>
+                <ng-pluralize count="room.players.items.length" when="{
+                    '0': 'No player',
+                    'one': '1 player',
+                    'other': '{} players'}"
+                ></ng-pluralize>
+            </span>&nbsp;-&nbsp;<span>{{ room.config.team ? 'Team game' : 'Individual game' }}</span>
         </h3>
         <div class="clearfix"></div>
 
@@ -34,15 +36,6 @@
                 <h5>Are you playing on a smartphone? </h5>
                 <button ng-click="setTouch()" class="btn btn-default">
                     Activate the touch controls!
-                </button>
-            </div>
-            <div ng-repeat="player in room.players.items track by player.id | orderBy:'position'" ng-if="player.local" class="text-right">
-                <button class="btn btn-default control"
-                    ng-repeat="control in ::player.controls track by $index"
-                    ng-click="control.toggle()"
-                    ng-class="{ 'active': control.mapper.listening }"
-                >
-                    {{ control.mapper.view }}
                 </button>
             </div>
             <table class="room-players table v-align-middle">

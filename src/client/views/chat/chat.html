@@ -6,37 +6,37 @@
         <span ng-if="message.icon" class="message-icon {{ ::message.icon }}"></span>
         <span ng-if="!message.icon" class="message-icon message-name" style="color: {{ message.player.color }};">
             <span class="mute icon-mute" title="Mute" ng-click="mute(message)"></span>
-            {{ message.player.name }}:
+            {{ message.player.fullName }}:
         </span>
         <span class="message-content" ng-switch="message.type">
             <!-- Vote Kick -->
             <span ng-switch-when="vote-kick">
                 <span ng-if="!message.target.local && !message.target.kicked">
-                    Do you want to kick <span style="color: {{ message.target.color }}">{{ message.target.name }}</span>?
+                    Do you want to kick <span style="color: {{ message.target.color }}">{{ message.target.fullName }}</span>?
                     <span class="action" ng-click="kickPlayer(message.target)">Yes!</span>
                 </span>
                 <span ng-if="!message.target.local && message.target.kicked">
-                    Ongoing vote to kick <span style="color: {{ message.target.color }}">{{ message.target.name }}</span>.
+                    Ongoing vote to kick <span style="color: {{ message.target.color }}">{{ message.target.fullName }}</span>.
                     <span class="action" ng-click="kickPlayer(message.target)">Cancel?</span>
                 </span>
                 <span ng-if="message.target.local">
-                    Ongoing vote to kick <span style="color: {{ message.target.color }}">{{ message.target.name }}</span>.
+                    Ongoing vote to kick <span style="color: {{ message.target.color }}">{{ message.target.fullName }}</span>.
                 </span>
             </span>
 
             <!-- Kick -->
             <span ng-switch-when="kick">
-                Farewell <span style="color: {{ ::message.target.color }}">{{ ::message.target.name }}</span>, you have been kicked.
+                Farewell <span style="color: {{ ::message.target.color }}">{{ ::message.target.fullName }}</span>, you have been kicked.
             </span>
 
             <!-- Room master -->
             <span ng-switch-when="room-master">
-                <span style="color: {{ message.getTarget().color }}">{{ message.getTarget().name }}</span> is now the room master.
+                <span style="color: {{ message.getTarget().color }}">{{ message.getTarget().fullName }}</span> is now the room master.
             </span>
 
             <!-- Mute -->
             <span ng-switch-when="mute">
-                You muted <span style="color: {{ message.player.color }}">{{ message.player.name }}</span>.
+                You muted <span style="color: {{ message.player.color }}">{{ message.player.fullName }}</span>.
                 <span class="action" ng-click="mute(message)">Cancel?</span>
             </span>
 

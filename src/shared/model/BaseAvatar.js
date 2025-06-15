@@ -9,6 +9,8 @@ function BaseAvatar(player)
 
     this.id              = player.id;
     this.name            = player.name;
+    this.teamTag         = player.teamTag;
+    this.fullName        = player.fullName;
     this.color           = player.color;
     this.player          = player;
     this.x               = 0;
@@ -433,6 +435,7 @@ BaseAvatar.prototype.serialize = function()
     return {
         id: this.id,
         name: this.name,
+        fullName: this.fullName,
         color: this.color,
         score: this.score
     };

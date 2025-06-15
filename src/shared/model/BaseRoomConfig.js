@@ -172,13 +172,13 @@ BaseRoomConfig.prototype.getMaxScore = function()
 /**
  * Set game duration
  *
- * @param {Number} duration in seconds
+ * @param {Number} gameDuration in seconds
  */
-BaseRoomConfig.prototype.setGameDuration = function(duration)
+BaseRoomConfig.prototype.setGameDuration = function(gameDuration)
 {
-    duration = parseInt(duration, 10);
+    gameDuration = parseInt(gameDuration, 10);
 
-    this.gameDuration = duration ? duration : null;
+    this.gameDuration = gameDuration ? gameDuration : null;
 
     return true;
 };
@@ -188,7 +188,7 @@ BaseRoomConfig.prototype.setGameDuration = function(duration)
  *
  * @return {Number}
  */
-BaseRoomConfig.prototype.getGameDurationInSeconds = function()
+BaseRoomConfig.prototype.getGameDuration = function()
 {
     return this.gameDuration ? this.gameDuration : this.getDefaultGameDuration();
 };
@@ -212,7 +212,7 @@ BaseRoomConfig.prototype.getDefaultGameDuration = function()
  */
 BaseRoomConfig.prototype.getDefaultMaxScore = function()
 {
-    return Math.max(1, (this.room.players.count() - 1) * 10);
+    return Math.max(1, (this.room.players.count() - 1)) * 10;
 };
 
 /**

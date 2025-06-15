@@ -125,9 +125,9 @@ GameController.prototype.loadGame = function(game)
 
     this.updateTimer = function()
     {
-        game.remainingTimeInMilliseconds = Math.max((game.gameDurationInSeconds * 1000) - (Date.now() - game.startTime), 0);
+        game.remainingTimeInMilliseconds = Math.max((game.gameDuration * 1000) - (Date.now() - game.startTime), 0);
         if(isNaN(game.remainingTimeInMilliseconds)) {
-            game.remainingTimeInMilliseconds = game.gameDurationInSeconds * 1000;
+            game.remainingTimeInMilliseconds = game.gameDuration * 1000;
         }
         that.$scope.$apply();
         setTimeout(that.updateTimer, 0);

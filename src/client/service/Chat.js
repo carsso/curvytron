@@ -189,6 +189,7 @@ Chat.prototype.getPlayer = function(data)
 
     return {
         name: typeof(data.name) === 'string' ? data.name : Message.prototype.name + ' ' + data.client,
+        fullName: typeof(data.fullName) === 'string' ? data.fullName : Message.prototype.name + ' ' + data.client,
         color: typeof(data.color) === 'string' ? data.color : Message.prototype.color
     };
 };

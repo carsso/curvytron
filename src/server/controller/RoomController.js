@@ -678,11 +678,11 @@ RoomController.prototype.onConfigGameDuration = function(client, data, callback)
 {
     var success = this.isRoomMaster(client) && this.room.config.setGameDuration(data.gameDuration);
 
-    callback({success: success, gameDuration: this.room.config.getGameDurationInSeconds() });
+    callback({success: success, gameDuration: this.room.config.gameDuration });
 
     if (success) {
         this.socketGroup.addEvent('room:config:game-duration', { 
-            gameDuration: this.room.config.getGameDurationInSeconds() 
+            gameDuration: this.room.config.gameDuration 
         });
     }
 };

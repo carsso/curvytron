@@ -104,7 +104,13 @@ RoundController.prototype.onRoundEnd = function(e)
 RoundController.prototype.onEnd = function(e)
 {
     this.notifier.notify('Game over!', null, 'win');
-    this.$scope.winner = this.game.avatars.getFirst();
+    if(this.game.room.config.team) {
+        this.game.sortTeams(this.game.teams);
+        this.$scope.winner = this.game.teams.getFirst();
+    } else {
+        this.game.sortAvatars(this.game.avatars);
+        this.$scope.winner = this.game.avatars.getFirst();
+    }
     this.digestScope();
     this.endElement.style.display = 'block';
 };

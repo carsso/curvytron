@@ -15,8 +15,8 @@ function BaseGame(room)
     this.size         = this.getSize(this.avatars.count());
     this.rendered     = null;
     this.maxScore     = room.config.getMaxScore();
-    this.gameDurationInSeconds = room.config.getGameDurationInSeconds();
-    this.remainingTimeInMilliseconds = this.gameDurationInSeconds * 1000;
+    this.gameDuration = room.config.getGameDuration();
+    this.remainingTimeInMilliseconds = this.gameDuration * 1000;
     this.startTime = Date.now();
     this.fps          = new FPSLogger();
     this.started      = false;
@@ -309,6 +309,21 @@ BaseGame.prototype.sortAvatars = function(avatars)
 
     return avatars;
 };
+
+/**
+ * Sort teams
+ *
+ * @param {Object} teams
+ *
+ * @return {Object}
+ */
+BaseGame.prototype.sortTeams = function(teams)
+{
+    teams.sort(function (a, b) { return a.getScore() > b.getScore() ? -1 : (a.getScore() < b.getScore() ? 1 : 0); });
+
+    return teams;
+};
+
 
 /**
  * Set borderless

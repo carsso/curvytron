@@ -3,6 +3,7 @@ function BaseTeam(name)
 {
     EventEmitter.call(this);
     this.name = name;
+    this.fullName = 'Team ' + name;
     this.players = new Collection([], 'id', true);
     
 }
