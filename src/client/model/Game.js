@@ -98,18 +98,6 @@ Game.prototype.onStart = function()
 };
 
 /**
- * Is tie break
- *
- * @return {Boolean}
- */
-Game.prototype.isTieBreak = function()
-{
-    var maxScore = this.maxScore;
-
-    return this.avatars.match(function () { return this.score >= maxScore; }) !== null;
-};
-
-/**
  * Are all avatars ready?
  *
  * @return {Boolean}

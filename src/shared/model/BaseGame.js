@@ -319,6 +319,8 @@ BaseGame.prototype.sortAvatars = function(avatars)
  */
 BaseGame.prototype.sortTeams = function(teams)
 {
+    teams = typeof(teams) !== 'undefined' ? teams : this.teams;
+
     teams.sort(function (a, b) { return a.getScore() > b.getScore() ? -1 : (a.getScore() < b.getScore() ? 1 : 0); });
 
     return teams;
@@ -373,6 +375,34 @@ BaseGame.prototype.endRound = function()
         this.inRound = false;
         this.onRoundEnd();
         setTimeout(this.stop, this.warmdownTime);
+    }
+};
+
+/**
+ * Is tie break
+ *
+ * @return {Boolean}
+ */
+BaseGame.prototype.isTieBreak = function()
+{
+    var maxScore = this.maxScore;
+    
+    if(this.room.config.team) {
+        // Team mode
+        var teams = this.teams.items.slice().sort(function(a, b) {
+            return b.getScore() - a.getScore();
+        });
+        
+        // Check if a team has exceeded max score AND if the two first teams are tied
+        return teams[0].getScore() > maxScore && teams[0].getScore() === teams[1].getScore();
+    } else {
+        // Individual mode
+        var players = this.avatars.items.slice().sort(function(a, b) {
+            return b.score - a.score;
+        });
+        
+        // Check if a player has exceeded max score AND if the two first players are tied
+        return players[0].score > maxScore && players[0].score === players[1].score;
     }
 };
 

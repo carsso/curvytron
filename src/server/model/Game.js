@@ -139,6 +139,11 @@ Game.prototype.isWon = function()
 
     var maxScore = this.maxScore;
     this.sortAvatars(players);
+    
+    if(this.isTieBreak()) {
+        // Tie break, no winner
+        return false;
+    }
 
     // Won by score
     if(this.room.config.team) {
@@ -310,7 +315,7 @@ Game.prototype.onStop = function()
             // Won by team
             var teams = this.teams;
             this.sortTeams(teams);
-            results = teams.items.map(function(t) { 
+            results = teams.items.map(function(t) {
                 return { 
                     player: t.fullName, 
                     points: t.getScore() 
